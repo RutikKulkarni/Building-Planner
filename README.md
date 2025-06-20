@@ -54,26 +54,6 @@ npm run dev
 5. **Open your browser:**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-### Database Schema
+### ScreenShots
+![image](https://github.com/user-attachments/assets/b5414a40-5967-4f3d-8830-38618e795add)
 
-```{
-  _id: ObjectId,
-  name: String,
-  shapes: [
-    {
-      id: String,
-      type: String,
-      x: Number,
-      y: Number,
-      width: Number,
-      height: Number,
-      strokeColor: String,
-      strokeWidth: Number,
-      fillColor: String,
-      text: String // for text shapes
-    }
-  ],
-  createdAt: Date,
-  updatedAt: Date
-}
-```
