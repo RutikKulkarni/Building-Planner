@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
-import DrawingCanvas from "@/components/canvas";
+import Canvas from "@/components/canvas";
 import Toolbar from "@/components/toolbar";
 import Panel from "@/components/panel";
 import type { Shape, Tool } from "@/types";
@@ -45,12 +45,10 @@ export default function BuildingPlanner() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50">
-        <header className="bg-white border-b border-gray-200">
-          <div className="flex items-center justify-between max-w-7xl mx-auto px-6 py-4">
-            <h1 className="text-xl font-medium text-gray-900">
-              Building Planner
-            </h1>
+      <div className="min-h-screen bg-gray-100">
+        <header className="bg-white border-b">
+          <div className="flex items-center justify-between max-w-7xl mx-auto px-4 py-3">
+            <h1 className="text-lg font-medium">Building Planner</h1>
             <Panel
               shapes={shapes}
               onLoadShapes={setShapes}
@@ -60,9 +58,9 @@ export default function BuildingPlanner() {
           </div>
         </header>
 
-        <div className="flex max-w-7xl mx-auto p-6 gap-6">
-          <div className="w-64">
-            <div className="bg-white rounded-lg border border-gray-200 p-4">
+        <div className="flex max-w-7xl mx-auto p-4 gap-4">
+          <div className="w-60">
+            <div className="bg-white border p-3">
               <Toolbar
                 selectedTool={selectedTool}
                 onToolChange={setSelectedTool}
@@ -81,8 +79,8 @@ export default function BuildingPlanner() {
           </div>
 
           <div className="flex-1">
-            <div className="bg-white rounded-lg border border-gray-200 p-3 h-[calc(100vh-180px)]">
-              <DrawingCanvas
+            <div className="bg-white border h-[calc(100vh-140px)]">
+              <Canvas
                 shapes={shapes}
                 onShapesChange={setShapes}
                 selectedTool={selectedTool}
@@ -97,31 +95,7 @@ export default function BuildingPlanner() {
           </div>
         </div>
       </div>
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          duration: 3000,
-          style: {
-            background: "#fff",
-            color: "#374151",
-            border: "1px solid #e5e7eb",
-            borderRadius: "8px",
-            fontSize: "14px",
-          },
-          success: {
-            iconTheme: {
-              primary: "#10b981",
-              secondary: "#fff",
-            },
-          },
-          error: {
-            iconTheme: {
-              primary: "#ef4444",
-              secondary: "#fff",
-            },
-          },
-        }}
-      />
+      <Toaster position="top-center" />
     </>
   );
 }

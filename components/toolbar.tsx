@@ -2,15 +2,12 @@
 
 import type { Tool } from "@/types";
 import {
-  FiMousePointer,
-  FiMinus,
-  FiSquare,
-  FiCircle,
   FiArrowRight,
+  FiCircle,
+  FiMinus,
+  FiMousePointer,
+  FiSquare,
   FiType,
-  FiEye,
-  FiEyeOff,
-  FiCopy,
 } from "react-icons/fi";
 import { IoTriangleOutline } from "react-icons/io5";
 import { PiHandFill } from "react-icons/pi";
@@ -67,42 +64,36 @@ export default function Toolbar({
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div>
-        <label className="text-sm font-medium text-gray-700 block mb-3">
-          Tools
-        </label>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="text-sm font-medium mb-2">Tools</div>
+        <div className="grid grid-cols-4 gap-1">
           {tools.map((tool) => (
             <button
               key={tool.id}
               onClick={() => onToolChange(tool.id)}
               title={tool.label}
-              className={`w-12 h-12 rounded-md border flex items-center justify-center transition-colors ${
+              className={`w-10 h-10 border text-sm ${
                 selectedTool === tool.id
-                  ? "bg-blue-50 border-blue-200 text-blue-600"
-                  : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50"
+                  ? "bg-blue-100 border-blue-300"
+                  : "bg-white border-gray-300 hover:bg-gray-50"
               }`}
             >
-              <tool.icon className="w-5 h-5" />
+              <tool.icon className="w-4 h-4" />
             </button>
           ))}
         </div>
       </div>
 
       <div>
-        <label className="text-sm font-medium text-gray-700 block mb-3">
-          Stroke Color
-        </label>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="text-sm font-medium mb-2">Stroke Color</div>
+        <div className="grid grid-cols-4 gap-1">
           {colors.map((color) => (
             <button
               key={color}
               onClick={() => onStrokeColorChange(color)}
-              className={`w-8 h-8 rounded border-2 transition-colors ${
-                strokeColor === color
-                  ? "border-gray-400"
-                  : "border-gray-200 hover:border-gray-300"
+              className={`w-6 h-6 border ${
+                strokeColor === color ? "border-gray-600" : "border-gray-300"
               }`}
               style={{ backgroundColor: color }}
               title={color}
@@ -112,11 +103,9 @@ export default function Toolbar({
       </div>
 
       <div>
-        <div className="flex items-center justify-between mb-3">
-          <label className="text-sm font-medium text-gray-700">
-            Stroke Width
-          </label>
-          <span className="text-xs text-gray-500">{strokeWidth}px</span>
+        <div className="flex justify-between items-center mb-2">
+          <div className="text-sm font-medium">Width</div>
+          <div className="text-xs text-gray-500">{strokeWidth}px</div>
         </div>
         <input
           type="range"
@@ -125,37 +114,33 @@ export default function Toolbar({
           step="1"
           value={strokeWidth}
           onChange={(e) => onStrokeWidthChange(Number.parseInt(e.target.value))}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer simple-slider"
+          className="w-full"
           title="Stroke Width"
         />
       </div>
 
       <div>
-        <label className="text-sm font-medium text-gray-700 block mb-3">
-          Fill Color
-        </label>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="text-sm font-medium mb-2">Fill Color</div>
+        <div className="grid grid-cols-4 gap-1">
           <button
             onClick={() => onFillColorChange("transparent")}
-            className={`w-8 h-8 rounded border-2 bg-white transition-colors ${
+            className={`w-6 h-6 border bg-white ${
               fillColor === "transparent"
-                ? "border-gray-400"
-                : "border-gray-200 hover:border-gray-300"
+                ? "border-gray-600"
+                : "border-gray-300"
             }`}
-            title="Transparent"
+            title="None"
           >
             <div className="w-full h-full flex items-center justify-center">
-              <div className="w-4 h-0.5 bg-red-400 rotate-45"></div>
+              <div className="w-3 h-0.5 bg-red-400 rotate-45"></div>
             </div>
           </button>
           {colors.slice(0, 7).map((color) => (
             <button
               key={`fill-${color}`}
               onClick={() => onFillColorChange(color)}
-              className={`w-8 h-8 rounded border-2 transition-colors ${
-                fillColor === color
-                  ? "border-gray-400"
-                  : "border-gray-200 hover:border-gray-300"
+              className={`w-6 h-6 border ${
+                fillColor === color ? "border-gray-600" : "border-gray-300"
               }`}
               style={{ backgroundColor: color }}
               title={color}
@@ -165,73 +150,61 @@ export default function Toolbar({
       </div>
 
       <div>
-        <label className="text-sm font-medium text-gray-700 block mb-3">
-          Actions
-        </label>
-        <div className="space-y-2">
+        <div className="text-sm font-medium mb-2">Actions</div>
+        <div className="space-y-1">
           <button
             onClick={() => onToggleAnnotations(!showAnnotations)}
-            className={`w-full px-3 py-2 rounded-md border text-sm flex items-center gap-2 transition-colors ${
+            className={`w-full px-2 py-1 border text-sm ${
               showAnnotations
-                ? "bg-blue-50 border-blue-200 text-blue-600"
-                : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50"
+                ? "bg-blue-100 border-blue-300"
+                : "bg-white border-gray-300 hover:bg-gray-50"
             }`}
           >
-            {showAnnotations ? (
-              <FiEye className="w-4 h-4" />
-            ) : (
-              <FiEyeOff className="w-4 h-4" />
-            )}
-            {showAnnotations ? "Hide Annotations" : "Show Annotations"}
+            {showAnnotations ? "Hide Labels" : "Show Labels"}
           </button>
 
           <button
             onClick={onDuplicate}
             disabled={!hasSelection}
-            className={`w-full px-3 py-2 rounded-md border text-sm flex items-center gap-2 transition-colors ${
+            className={`w-full px-2 py-1 border text-sm ${
               hasSelection
-                ? "bg-white border-gray-200 text-gray-600 hover:bg-gray-50"
-                : "bg-gray-50 border-gray-200 text-gray-400 cursor-not-allowed"
+                ? "bg-white border-gray-300 hover:bg-gray-50"
+                : "bg-gray-100 border-gray-300 text-gray-400 cursor-not-allowed"
             }`}
           >
-            <FiCopy className="w-4 h-4" />
-            Duplicate
+            Copy
           </button>
         </div>
       </div>
 
       <div>
-        <label className="text-sm font-medium text-gray-700 block mb-2">
-          Instructions
-        </label>
-        <div className="text-xs text-gray-500 space-y-1 bg-gray-50 rounded-md p-3">
+        <div className="text-sm font-medium mb-1">Help</div>
+        <div className="text-xs text-gray-500 bg-gray-50 p-2 space-y-1">
           {selectedTool === "hand" && (
             <>
-              <p>• Drag to pan around canvas</p>
-              <p>• Ctrl/Cmd + wheel to zoom</p>
-              <p>• Ctrl/Cmd + 0 to reset view</p>
+              <div>• Drag to pan</div>
+              <div>• Ctrl+wheel to zoom</div>
             </>
           )}
           {selectedTool === "text" && (
             <>
-              <p>• Click canvas to add text</p>
-              <p>• Double-click text to edit</p>
-              <p>• Enter to save, Esc to cancel</p>
+              <div>• Click to add text</div>
+              <div>• Double-click to edit</div>
             </>
           )}
           {selectedTool === "select" && (
             <>
-              <p>• Click shapes to select</p>
-              <p>• Drag to move shapes</p>
-              <p>• Delete key to remove</p>
+              <div>• Click to select</div>
+              <div>• Drag to move</div>
+              <div>• Delete key to remove</div>
             </>
           )}
           {selectedTool !== "text" &&
             selectedTool !== "select" &&
             selectedTool !== "hand" && (
               <>
-                <p>• Click and drag to draw</p>
-                <p>• Release to complete shape</p>
+                <div>• Click and drag</div>
+                <div>• Release to finish</div>
               </>
             )}
         </div>

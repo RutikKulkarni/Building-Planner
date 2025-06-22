@@ -30,6 +30,8 @@ export default function Canvas({
 }: CanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const textInputRef = useRef<HTMLInputElement>(null);
+
+  // Drawing states
   const [isDrawing, setIsDrawing] = useState(false);
   const [startPoint, setStartPoint] = useState<Point | null>(null);
   const [currentPoint, setCurrentPoint] = useState<Point | null>(null);
@@ -140,10 +142,8 @@ export default function Canvas({
         const rect = canvas.getBoundingClientRect();
         const mouseX = (e.clientX - rect.left) * (canvas.width / rect.width);
         const mouseY = (e.clientY - rect.top) * (canvas.height / rect.height);
-
         const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
         const newZoom = Math.max(0.1, Math.min(5, viewState.zoom * zoomFactor));
-
         const zoomRatio = newZoom / viewState.zoom;
         const newPanX = mouseX - (mouseX - viewState.panX) * zoomRatio;
         const newPanY = mouseY - (mouseY - viewState.panY) * zoomRatio;
@@ -852,13 +852,10 @@ export default function Canvas({
     canvas.width = rect.width * window.devicePixelRatio;
     canvas.height = rect.height * window.devicePixelRatio;
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     ctx.save();
     ctx.translate(viewState.panX, viewState.panY);
     ctx.scale(viewState.zoom, viewState.zoom);
-
     ctx.strokeStyle = "#f3f4f6";
     ctx.lineWidth = 0.5 / viewState.zoom;
     const gridSize = 20;
@@ -881,7 +878,6 @@ export default function Canvas({
       ctx.lineTo(endX, y);
       ctx.stroke();
     }
-
     shapes.forEach((shape) => {
       const isSelected = shape.id === selectedShapeId;
       drawShape(ctx, shape, isSelected);
@@ -909,31 +905,30 @@ export default function Canvas({
   };
 
   return (
-    <div className="w-full h-full border border-gray-200 rounded-lg overflow-hidden bg-white relative">
-      <div className="absolute top-4 right-4 z-10 flex flex-col gap-1 bg-white border border-gray-200 rounded-md shadow-sm">
+    <div className="w-full h-full border border-gray-300 bg-white relative">
+      <div className="absolute top-2 right-2 bg-white border border-gray-300 text-xs">
         <button
           onClick={zoomIn}
-          className="px-2 py-1 text-sm hover:bg-gray-50 transition-colors"
-          title="Zoom In (Ctrl/Cmd + +)"
+          className="px-2 py-1 border-b border-gray-300 hover:bg-gray-100"
         >
           +
         </button>
-        <div className="px-2 py-1 text-xs text-gray-500 text-center border-t border-b border-gray-200">
+        <div className="px-2 py-1 text-center border-b border-gray-300">
           {Math.round(viewState.zoom * 100)}%
         </div>
         <button
           onClick={zoomOut}
-          className="px-2 py-1 text-sm hover:bg-gray-50 transition-colors"
-          title="Zoom Out (Ctrl/Cmd + -)"
+          className="px-2 py-1 border-b border-gray-300 hover:bg-gray-100"
         >
-          −
+          -
         </button>
         <button
           onClick={resetZoom}
-          className="px-2 py-1 text-xs hover:bg-gray-50 transition-colors border-t border-gray-200"
-          title="Reset Zoom (Ctrl/Cmd + 0)"
+          className="px-2 py-1 hover:bg-gray-100"
+          title="Reset zoom"
+          aria-label="Reset zoom"
         >
-          <FiRotateCcw className="inline-block w-4 h-4" />
+          <FiRotateCcw />
         </button>
       </div>
 
@@ -957,7 +952,7 @@ export default function Canvas({
           value={textInputValue}
           onChange={(e) => setTextInputValue(e.target.value)}
           onBlur={finishTextEditing}
-          className="absolute bg-white border-2 border-blue-500 rounded px-2 py-1 text-base font-sans outline-none shadow-lg z-10"
+          className="absolute bg-white border-2 border-blue-500 px-2 py-1 text-sm"
           style={{
             left: textInputPosition.x,
             top: textInputPosition.y - 25,
